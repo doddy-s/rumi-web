@@ -1,12 +1,12 @@
 import { GoogleButton } from '@components/GoogleButton.tsx'
-import { createFileRoute, Link } from '@tanstack/react-router'
+import { createLazyFileRoute, Link } from '@tanstack/react-router'
 import { OdemyLogo } from '@components/OdemyLogo.tsx'
 import React, { useState } from 'react'
 import { useMutation } from '@tanstack/react-query'
 import { StatefulButton } from '@components/StatefulButton.tsx'
 import { login } from '@api/auth/login'
 
-export const Route = createFileRoute('/_auth/login/')({
+export const Route: unknown = createLazyFileRoute('/_auth/login/')({
     component: Login
 })
 

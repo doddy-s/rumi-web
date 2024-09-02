@@ -2,25 +2,25 @@ import Slider, { Settings } from 'react-slick'
 import { AnimeCard } from './AnimeCard'
 import { Anime } from '@api/anime/types'
 
-export function MainBannerCarrousel({ updateBanner, animes }: { updateBanner: (index: number) => void, animes: Anime[] }) {
+export function MainBannerCarousel({ updateBanner, animes }: { updateBanner: (index: number) => void, animes: Anime[] }) {
   const settings: Settings = {
-    className: 'center',
     centerMode: true,
     infinite: true,
     centerPadding: '2rem',
-    slidesToShow: 3,
-    speed: 500,
+    slidesToShow: 4,
+    speed: 200,
     accessibility: true,
     afterChange: function (index) {
       updateBanner(index)
-    }
+    },
+    focusOnSelect: true,
   }
   return (
     <>
-      <div className='h-[12rem] w-[42rem]'>
+      <div className='h-[12rem] w-[36rem]'>
         <Slider {...settings}>
           {animes.map((anime) => (
-            <AnimeCard anime={anime} key={anime.id} />
+            <AnimeCard anime={anime} key={anime.malId} />
           ))}
         </Slider>
       </div>

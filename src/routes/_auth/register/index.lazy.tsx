@@ -1,4 +1,4 @@
-import { createFileRoute, Link } from '@tanstack/react-router'
+import { createLazyFileRoute, Link } from '@tanstack/react-router'
 import { OdemyLogo } from '@components/OdemyLogo.tsx'
 import { GoogleButton } from '@components/GoogleButton.tsx'
 import { useMutation } from '@tanstack/react-query'
@@ -6,7 +6,7 @@ import React, { useState } from 'react'
 import { StatefulButton } from '@components/StatefulButton.tsx'
 import { register } from '@api/auth/register'
 
-export const Route = createFileRoute('/_auth/register/')({
+export const Route: unknown = createLazyFileRoute('/_auth/register/')({
     component: Register
 })
 
@@ -66,7 +66,7 @@ function Register() {
         const email = target.email.value
         const picture = target.picture.value
         const password = target.password.value
-        const confirmPassword = target.confirmPassword.value
+        // const confirmPassword = target.confirmPassword.value
         const sk = target.sk.checked
 
         // console.log({username, email, password, confirmPassword, sk})

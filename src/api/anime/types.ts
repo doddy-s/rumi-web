@@ -1,16 +1,27 @@
 import { BaseResDto } from '@api/types'
 
 export type Anime = {
-  id: number
-  createdDate: number
   malId: number
+  title: string
   englishTitle: string
   japaneseTitle: string
-  rating: number
-  description: string
-  picture: string
-  releaseYear: number
-  releaseSeason: string
+  score: number
+  synopsis: string
+  image: string
+  year: number
+  season: string
+  genres: Genre[]
+  studios: Studio[]
+}
+
+export type Genre = {
+  malId: number
+  name: string
+}
+
+export type Studio = {
+  malId: number
+  name: string
 }
 
 export type AnimePage = BaseResDto & {

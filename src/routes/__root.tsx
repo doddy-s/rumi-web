@@ -6,6 +6,7 @@ import {TanStackRouterDevtools} from '@tanstack/router-devtools'
 import {QueryClient} from '@tanstack/react-query'
 import {ReactQueryDevtools} from '@tanstack/react-query-devtools'
 import { MainNavbar } from '@components/MainNavbar'
+import { MainFooter } from '@components/MainFooter'
 
 export const Route = createRootRouteWithContext<{
     queryClient: QueryClient
@@ -21,6 +22,7 @@ function RootComponent() {
             <Outlet />
             <ReactQueryDevtools buttonPosition="bottom-right" />
             <TanStackRouterDevtools position="bottom-right" />
+            <MainFooter />
         </>
     )
 }
