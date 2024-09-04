@@ -12,8 +12,8 @@ function Root() {
     <main className="flex min-h-screen w-full flex-col items-center justify-between overflow-hidden">
       <MainBannerOverlay />
       <div className="h-auto w-screen bg-black flex-col justify-center items-center m-8">
-        <Carousel query={getCurrentSeasonAnimes} title='Current Season Animes'/>
-        <Carousel query={getTopAnimes} title='Your watch history'/>
+        <Carousel query={getCurrentSeasonAnimes} title="Current Season Animes" isInfinite={true} />
+        <Carousel query={getTopAnimes} title="Your watch history" isInfinite={false} />
       </div>
     </main>
   )
