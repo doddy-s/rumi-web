@@ -6,6 +6,9 @@ import { MainBannerDetail } from './MainBannerDetail'
 import { useQuery } from '@tanstack/react-query'
 import { getTopAnimes } from '@api/anime/getCurrentSeasonAnimes'
 import { MainBannerCarousel } from './MainBannerCarousel'
+import { MainBannerLoading } from './MainBanner.loading'
+import { MainBannerDetailLoading } from './MainBannerDetail.loading'
+import { MainBannerCarouselLoading } from './MainBannerCarousel.loading'
 
 export function MainBannerOverlay() {
   const { data, isPending, error, isError } = useQuery({
@@ -18,7 +21,17 @@ export function MainBannerOverlay() {
   const setCurrentAnimeIndexFromChild = (val: number) => { setCurrentAnimeIndex(val) }
 
   if (isPending) {
-    return <span>Loading...</span>
+    return (
+      <>
+        <div className="relative h-screen">
+          <MainBannerLoading />
+        </div>
+        <div className="absolute h-auto w-full flex justify-between items-end bottom-20 px-20">
+          <MainBannerDetailLoading />
+          <MainBannerCarouselLoading />
+        </div>
+      </>
+    )
   }
 
   if (isError) {
