@@ -35,3 +35,7 @@ export type SimplePage = {
   currentPage: number
   hasNextPage: boolean
 }
+
+export type AnimeRes = BaseResDto & {
+  data: Anime
+}

@@ -15,6 +15,7 @@ import { createFileRoute } from '@tanstack/react-router'
 import { Route as rootRoute } from './routes/__root'
 import { Route as AuthImport } from './routes/_auth'
 import { Route as IndexImport } from './routes/index'
+import { Route as AnimeMalIdImport } from './routes/anime/$malId'
 
 // Create Virtual Routes
 
@@ -30,6 +31,11 @@ const AuthRoute = AuthImport.update({
 
 const IndexRoute = IndexImport.update({
   path: '/',
+  getParentRoute: () => rootRoute,
+} as any)
+
+const AnimeMalIdRoute = AnimeMalIdImport.update({
+  path: '/anime/$malId',
   getParentRoute: () => rootRoute,
 } as any)
 
@@ -65,6 +71,13 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof AuthImport
       parentRoute: typeof rootRoute
     }
+    '/anime/$malId': {
+      id: '/anime/$malId'
+      path: '/anime/$malId'
+      fullPath: '/anime/$malId'
+      preLoaderRoute: typeof AnimeMalIdImport
+      parentRoute: typeof rootRoute
+    }
     '/_auth/login/': {
       id: '/_auth/login/'
       path: '/login'
@@ -90,6 +103,7 @@ export const routeTree = rootRoute.addChildren({
     AuthLoginIndexLazyRoute,
     AuthRegisterIndexLazyRoute,
   }),
+  AnimeMalIdRoute,
 })
 
 /* prettier-ignore-end */
@@ -101,7 +115,8 @@ export const routeTree = rootRoute.addChildren({
       "filePath": "__root.tsx",
       "children": [
         "/",
-        "/_auth"
+        "/_auth",
+        "/anime/$malId"
       ]
     },
     "/": {
@@ -113,6 +128,9 @@ export const routeTree = rootRoute.addChildren({
         "/_auth/login/",
         "/_auth/register/"
       ]
+    },
+    "/anime/$malId": {
+      "filePath": "anime/$malId.tsx"
     },
     "/_auth/login/": {
       "filePath": "_auth/login/index.lazy.tsx",
