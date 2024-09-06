@@ -39,3 +39,14 @@ export type SimplePage = {
 export type AnimeRes = BaseResDto & {
   data: Anime
 }
+
+export type Stream = {
+  consumetId: string
+  title: string
+  image: string
+  provider: string
+}
+
+export type StreamList = BaseResDto & {
+  data: Stream[]
+}

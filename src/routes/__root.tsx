@@ -19,7 +19,7 @@ function RootComponent() {
     return (
         <>
             <MainNavbar />
-            <Outlet />
+            <section className="overflow-hidden"><Outlet /></section>
             <ReactQueryDevtools buttonPosition="bottom-right" />
             <TanStackRouterDevtools position="bottom-right" />
             <MainFooter />

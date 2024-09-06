@@ -1,22 +1,21 @@
 import Slider, { Settings } from 'react-slick'
-import { AnimePage } from '@api/anime/types'
-import { AnimeCardLarge } from './AnimeCardLarge'
+import { StreamList } from '@api/anime/types'
 import { useQuery } from '@tanstack/react-query'
 import { AnimeCardLargeLoading } from './AnimeCardLarge.loading'
+import { StreamCardLarge } from './StreamCardLarge'
 
-export function Carousel({ query, title, isInfinite }: { query: () => Promise<AnimePage>, title: string, isInfinite: boolean }) {
+export function StreamCarousel({ query, title, isInfinite, malId }: { query: (malId: number) => Promise<StreamList>, title: string, isInfinite: boolean, malId: number }) {
   const settings: Settings = {
     centerMode: false,
     infinite: isInfinite,
-    slidesToShow: 8,
+    slidesToShow: 6,
     speed: 200,
     swipeToSlide: true,
-    focusOnSelect: true,
   }
 
   const { data, isPending, error, isError } = useQuery({
-    queryKey: ['animes'],
-    queryFn: query,
+    queryKey: ['streams', malId],
+    queryFn: async () => await query(malId),
   })
 
   if (isPending) {
@@ -43,8 +42,8 @@ export function Carousel({ query, title, isInfinite }: { query: () => Promise<An
       <div className="h-[24rem] w-auto px-20">
         <h1 className="text-xl pb-4">{title}</h1>
         <Slider {...settings}>
-          {data.data.list.map((anime) => (
-            <AnimeCardLarge anime={anime} key={anime.malId} />
+          {data?.data?.map((stream) => (
+            <StreamCardLarge stream={stream} key={stream.consumetId} />
           ))}
         </Slider>
       </div>
