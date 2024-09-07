@@ -14,6 +14,7 @@ export function AnimeCardLarge({ anime }: { anime: Anime }) {
         </div>
         <Link to="/stream/$malId" params={{ malId: anime.malId.toString() }} className="relative flex flex-col justify-between items-start h-full w-full p-2 
         bg-none hover:bg-black bg-opacity-0 hover:bg-opacity-50 duration-100">
+          <p></p>
           <h1>{anime.title}</h1>
         </Link>
       </div>

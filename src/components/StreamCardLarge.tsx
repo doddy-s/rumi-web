@@ -7,7 +7,7 @@ export function StreamCardLarge({ stream }: { stream: Stream }) {
   return (
     <>
       <div className="h-[16rem] w-[12rem] overflow-hidden rounded-sm">
-        <div className="absolute h-full w-full">
+        <div className="absolute h-[16rem] w-[12rem]">
           <img
             src={stream.image}
             alt="banner"
