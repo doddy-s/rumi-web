@@ -15,6 +15,7 @@ import { createFileRoute } from '@tanstack/react-router'
 import { Route as rootRoute } from './routes/__root'
 import { Route as AuthImport } from './routes/_auth'
 import { Route as IndexImport } from './routes/index'
+import { Route as WatchConsumetIdImport } from './routes/watch/$consumetId'
 import { Route as StreamMalIdImport } from './routes/stream/$malId'
 import { Route as AnimeMalIdImport } from './routes/anime/$malId'
 
@@ -32,6 +33,11 @@ const AuthRoute = AuthImport.update({
 
 const IndexRoute = IndexImport.update({
   path: '/',
+  getParentRoute: () => rootRoute,
+} as any)
+
+const WatchConsumetIdRoute = WatchConsumetIdImport.update({
+  path: '/watch/$consumetId',
   getParentRoute: () => rootRoute,
 } as any)
 
@@ -91,6 +97,13 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof StreamMalIdImport
       parentRoute: typeof rootRoute
     }
+    '/watch/$consumetId': {
+      id: '/watch/$consumetId'
+      path: '/watch/$consumetId'
+      fullPath: '/watch/$consumetId'
+      preLoaderRoute: typeof WatchConsumetIdImport
+      parentRoute: typeof rootRoute
+    }
     '/_auth/login/': {
       id: '/_auth/login/'
       path: '/login'
@@ -118,6 +131,7 @@ export const routeTree = rootRoute.addChildren({
   }),
   AnimeMalIdRoute,
   StreamMalIdRoute,
+  WatchConsumetIdRoute,
 })
 
 /* prettier-ignore-end */
@@ -131,7 +145,8 @@ export const routeTree = rootRoute.addChildren({
         "/",
         "/_auth",
         "/anime/$malId",
-        "/stream/$malId"
+        "/stream/$malId",
+        "/watch/$consumetId"
       ]
     },
     "/": {
@@ -149,6 +164,9 @@ export const routeTree = rootRoute.addChildren({
     },
     "/stream/$malId": {
       "filePath": "stream/$malId.tsx"
+    },
+    "/watch/$consumetId": {
+      "filePath": "watch/$consumetId.tsx"
     },
     "/_auth/login/": {
       "filePath": "_auth/login/index.lazy.tsx",

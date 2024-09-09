@@ -50,3 +50,12 @@ export type Stream = {
 export type StreamList = BaseResDto & {
   data: Stream[]
 }
+
+export type Episode = {
+  consumetId: string,
+  title: string
+}
+
+export type EpisodeList = BaseResDto & {
+  data: Episode[]
+}
