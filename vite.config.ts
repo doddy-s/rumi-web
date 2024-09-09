@@ -13,7 +13,8 @@ export default defineConfig({
         alias: [
             {find: '@components', replacement: resolve(__dirname, './src/components')},
             {find: '@assets', replacement: resolve(__dirname, './src/assets')},
-            {find: '@api', replacement: resolve(__dirname, './src/api')}
+            {find: '@api', replacement: resolve(__dirname, './src/api')},
+            {find: '@context', replacement: resolve(__dirname, './src/context')}
         ]
     }
 })

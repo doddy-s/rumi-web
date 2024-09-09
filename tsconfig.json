@@ -9,7 +9,8 @@
     "paths": {
       "@components/*" : ["src/components/*"],
       "@assets/*": ["src/assets/*"],
-      "@api/*": ["src/api/*"]
+      "@api/*": ["src/api/*"],
+      "@context/*": ["src/context/*"]
     },
     "types": ["node"],
 
