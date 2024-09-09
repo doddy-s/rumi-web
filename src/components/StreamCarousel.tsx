@@ -43,11 +43,11 @@ export function StreamCarousel({ query, title, isInfinite, malId }: { query: (ma
 
   return (
     <>
-      <div className="h-[24rem] px-20" style={{width: data.data.length * 16 + 'rem'}}>
+      <div className="h-[24rem] px-20" style={{width: data?.data?.length * 16 + 'rem'}}>
         <h1 className="text-xl pb-4">{title}</h1>
         <Slider {...settings}>
           {data?.data?.map((stream) => (
-            <StreamCardLarge stream={stream} key={stream.consumetId} />
+            <StreamCardLarge stream={stream} key={stream?.consumetId} />
           ))}
           {/* <h1>1</h1>
           <h1>2</h1>

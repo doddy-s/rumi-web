@@ -5,7 +5,7 @@ export function MainBanner({ anime }: { anime: Anime }) {
     <>
       <div className="mask-banner h-screen w-full overflow-hidden">
         <img
-          src={anime.image}
+          src={anime?.image}
           alt="banner"
           className="w-screen object-center -translate-y-[15%]"
         />

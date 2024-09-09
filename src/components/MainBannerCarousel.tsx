@@ -19,8 +19,8 @@ export function MainBannerCarousel({ updateBanner, animes }: { updateBanner: (in
     <>
       <div className="h-[12rem] w-[36rem]">
         <Slider {...settings}>
-          {animes.map((anime) => (
-            <AnimeCard anime={anime} key={anime.malId} />
+          {animes?.map((anime) => (
+            <AnimeCard anime={anime} key={anime?.malId} />
           ))}
         </Slider>
       </div>

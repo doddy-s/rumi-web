@@ -8,6 +8,10 @@ export function MainBannerDetail({ anime }: { anime: Anime }) {
     setIsReadMore(!isReadMore)
   }
 
+  if(anime == undefined) return (
+    <></>
+  )
+
   return (
     <>
       <div className="flex-col w-1/3">

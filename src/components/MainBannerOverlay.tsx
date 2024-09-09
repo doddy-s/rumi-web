@@ -13,7 +13,7 @@ import { MainBannerCarouselLoading } from './MainBannerCarousel.loading'
 export function MainBannerOverlay() {
   const { data, isPending, error, isError } = useQuery({
     queryKey: ['animes'],
-    queryFn: getTopAnimes,
+    queryFn: async () => await getTopAnimes(),
   })
 
   const [currentAnimeIndex, setCurrentAnimeIndex] = useState(0)
@@ -41,11 +41,11 @@ export function MainBannerOverlay() {
   return (
     <>
       <div className="relative h-screen">
-        <MainBanner anime={data.data.list[currentAnimeIndex]} />
+        <MainBanner anime={data?.data?.list[currentAnimeIndex]} />
       </div>
       <div className="absolute h-auto w-full flex justify-between items-end bottom-20 px-20">
-        <MainBannerDetail anime={data.data.list[currentAnimeIndex]} />
-        <MainBannerCarousel updateBanner={setCurrentAnimeIndexFromChild} animes={data.data.list}/>
+        <MainBannerDetail anime={data?.data?.list[currentAnimeIndex]} />
+        <MainBannerCarousel updateBanner={setCurrentAnimeIndexFromChild} animes={data?.data?.list}/>
       </div>
     </>
   )
