@@ -10,7 +10,7 @@
       "@components/*" : ["src/components/*"],
       "@assets/*": ["src/assets/*"],
       "@api/*": ["src/api/*"],
-      "@context/*": ["src/context/*"]
+      "@contexts/*": ["src/contexts/*"]
     },
     "types": ["node"],
 

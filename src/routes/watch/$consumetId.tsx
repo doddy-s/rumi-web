@@ -1,5 +1,5 @@
 import { EpisodeCarousel } from '@components/EpisodeCarousel'
-import { WatchContext } from '@context/WatchContext'
+import { WatchContext } from '@contexts/WatchContext'
 import { createFileRoute, useSearch } from '@tanstack/react-router'
 
 type WatchSearch = {

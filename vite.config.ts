@@ -14,7 +14,7 @@ export default defineConfig({
             {find: '@components', replacement: resolve(__dirname, './src/components')},
             {find: '@assets', replacement: resolve(__dirname, './src/assets')},
             {find: '@api', replacement: resolve(__dirname, './src/api')},
-            {find: '@context', replacement: resolve(__dirname, './src/context')}
+            {find: '@contexts', replacement: resolve(__dirname, './src/contexts')}
         ]
     }
 })

@@ -1,5 +1,5 @@
 import { Episode } from '@api/anime/types'
-import { WatchContext } from '@context/WatchContext'
+import { WatchContext } from '@contexts/WatchContext'
 import { Link } from '@tanstack/react-router'
 import { useContext } from 'react'
 

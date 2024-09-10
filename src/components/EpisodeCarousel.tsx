@@ -3,7 +3,7 @@ import { useQuery } from '@tanstack/react-query'
 // import Slider, { Settings } from 'react-slick'
 import { EpisodeButton } from './EpisodeButton'
 import { useContext } from 'react'
-import { WatchContext } from '@context/WatchContext'
+import { WatchContext } from '@contexts/WatchContext'
 
 export function EpisodeCarousel() {
   const consumetId = useContext(WatchContext)
