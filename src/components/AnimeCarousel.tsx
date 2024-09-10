@@ -22,7 +22,7 @@ export function AnimeCarousel({ query, title, isInfinite }: { query: () => Promi
   if (isPending) {
     return (
       <>
-        <div className="h-[24rem] w-auto px-20">
+        <div className="h-[24rem] w-full px-20">
           <h1 className="text-xl pb-4">{title}</h1>
           <Slider {...settings}>
             {[...Array(10)].map(() => (
@@ -40,7 +40,7 @@ export function AnimeCarousel({ query, title, isInfinite }: { query: () => Promi
 
   return (
     <>
-      <div className="h-[24rem] w-auto px-20">
+      <div className="h-[24rem] w-full px-[5.5rem]">
         <h1 className="text-xl pb-4">{title}</h1>
         <Slider {...settings}>
           {data?.data?.list.map((anime) => (

@@ -11,7 +11,7 @@ function Stream() {
 
   return (
     <>
-      <div className="h-auto w-auto bg-black flex-col justify-center items-start m-8 pt-20">
+      <div className="h-auto w-auto bg-black flex-col justify-center items-start pt-24 px-20">
         <StreamCarousel query={getRelatedStreams} title="Available Stream" isInfinite={false} malId={malId} />
       </div>
     </>
