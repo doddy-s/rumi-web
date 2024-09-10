@@ -52,10 +52,44 @@ export type StreamList = BaseResDto & {
 }
 
 export type Episode = {
-  consumetId: string,
+  consumetId: string
+  number: number
   title: string
 }
 
+export enum ProviderEnum {
+  HIANIME,
+  GOGOANIME
+}
+
 export type EpisodeList = BaseResDto & {
-  data: Episode[]
+  data: {
+    provider: ProviderEnum
+    list: Episode[]
+  }
+}
+
+export enum VideoQualityEnum {
+  NHD,
+  FWVGA,
+  HD,
+  FHD
+}
+
+export enum ServerEnum {
+  GOGOCDN = 'GOGOCDN',
+  STREAMSB = 'STREAMSB',
+  VIDSTREAMING = 'VIDSTREAMING',
+  VIDCLOUD = 'VIDCLOUD',
+  STREAMTAPE = 'STREAMTAPE'
+}
+
+export type Server = {
+  url: string
+  videoQuality: VideoQualityEnum
+  server: ServerEnum
+}
+
+export type ServerList = BaseResDto & {
+  data: Server[]
 }

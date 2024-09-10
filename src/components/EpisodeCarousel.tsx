@@ -1,27 +1,19 @@
 import { getEpisodes } from '@api/anime/getEpisodes'
 import { useQuery } from '@tanstack/react-query'
-// import Slider, { Settings } from 'react-slick'
 import { EpisodeButton } from './EpisodeButton'
 import { useContext } from 'react'
 import { WatchContext } from '@contexts/WatchContext'
+import { useSearch } from '@tanstack/react-router'
 
 export function EpisodeCarousel() {
   const consumetId = useContext(WatchContext)
+
+  const search = useSearch({ from: '/watch/$consumetId' })
 
   const { data, isPending, isError } = useQuery({
     queryKey: ['episodes', consumetId],
     queryFn: async () => await getEpisodes(consumetId)
   })
-
-  // const settings: Settings = {
-  //   centerMode: false,
-  //   slidesToShow: data?.data.length || 0,
-  //   speed: 200,
-  //   vertical: true,
-  //   focusOnSelect: true,
-  //   arrows: true,
-  //   dots: true
-  // }
 
   if (isPending) return (
     <><h1 className="animate-pulse">Loading...</h1></>
@@ -33,12 +25,11 @@ export function EpisodeCarousel() {
 
   return (
     <>
-      {/* <Slider {...settings} className="my-8">
-        {data?.data?.map((episode) => <><EpisodeButton episode={episode} /></>)}
-      </Slider> */}
-
-      <div className="h-3/4 w-full flex flex-col justify-start items-center overflow-auto my-8">
-        {data?.data?.map((episode) => <><EpisodeButton episode={episode} /></>)}
+      <div className="h-full overflow-y-auto scrollbar-thumb-gray-800 scrollbar-track-gray-400 scrollbar-thin">
+        <h1 className="mb-5">EPISODE</h1>
+        <div className="h-auto w-auto grid grid-cols-4 gap-4 mr-5">
+          {data?.data?.list?.map((episode, i) => <><EpisodeButton episode={episode} key={i} isActive={episode.consumetId == search?.consumetId} /></>)}
+        </div>
       </div>
     </>
   )

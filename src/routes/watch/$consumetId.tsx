@@ -1,15 +1,16 @@
 import { EpisodeCarousel } from '@components/EpisodeCarousel'
+import { VideoPlayer } from '@components/VideoPlayer'
 import { WatchContext } from '@contexts/WatchContext'
 import { createFileRoute, useSearch } from '@tanstack/react-router'
 
 type WatchSearch = {
-  consumetId: string
+  consumetId: string | null
 }
 
 export const Route = createFileRoute('/watch/$consumetId')({
   validateSearch: (search: Record<string, unknown>): WatchSearch => {
     return {
-      consumetId: search?.consumetId as string || ''
+      consumetId: search?.consumetId as string || null
     }
   },
   component: Watch
@@ -18,18 +19,17 @@ export const Route = createFileRoute('/watch/$consumetId')({
 function Watch() {
   const { consumetId }: { consumetId: string } = Route.useParams()
 
-  const search = useSearch({from: '/watch/$consumetId'})
+  const search = useSearch({ from: '/watch/$consumetId' })
 
   return (
     <>
       <WatchContext.Provider value={consumetId} >
-        <div className="h-auto w-auto bg-blue-950 flex justify-center items-start m-20">
-          <div className="bg-pink-800 w-1/5 h-screen p-5">
-            <h1>EPISODES</h1>
+        <div className="h-[90vh] w-auto flex justify-center items-start pt-24 mx-20">
+          <div className="h-full w-auto">
             <EpisodeCarousel />
           </div>
-          <div className="bg-purple-800 w-4/5 h-screen p-5">
-            {search.consumetId}
+          <div className="w-full h-full ml-8">
+            {search.consumetId == null ? <></> : <VideoPlayer consumetId={search?.consumetId} />}
           </div>
         </div>
       </WatchContext.Provider>
