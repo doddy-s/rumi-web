@@ -1,0 +1,7 @@
+services:
+  web:
+    build: .
+    image: rumi-web-image
+    container_name: rumi-web-container
+    ports:
+      - "8081:80"
