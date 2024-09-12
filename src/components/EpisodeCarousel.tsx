@@ -6,13 +6,13 @@ import { WatchContext } from '@contexts/WatchContext'
 import { useSearch } from '@tanstack/react-router'
 
 export function EpisodeCarousel() {
-  const consumetId = useContext(WatchContext)
+  const { streamId } = useContext(WatchContext)
 
-  const search = useSearch({ from: '/watch/$consumetId' })
+  const search = useSearch({ from: '/watch/$streamId' })
 
   const { data, isPending, isError } = useQuery({
-    queryKey: ['episodes', consumetId],
-    queryFn: async () => await getEpisodes(consumetId)
+    queryKey: ['episodes', streamId],
+    queryFn: async () => await getEpisodes(streamId)
   })
 
   if (isPending) return (
@@ -28,7 +28,7 @@ export function EpisodeCarousel() {
       <div className="h-full overflow-y-auto scrollbar-thumb-gray-800 scrollbar-track-gray-400 scrollbar-thin">
         <h1 className="mb-5">EPISODE</h1>
         <div className="h-auto w-auto grid grid-cols-4 gap-4 mr-5">
-          {data?.data?.list?.map((episode, i) => <><EpisodeButton episode={episode} key={i} isActive={episode.consumetId == search?.consumetId} /></>)}
+          {data?.data?.list?.map((episode, i) => <><EpisodeButton episode={episode} key={i} isActive={episode.consumetId == search?.episodeId} /></>)}
         </div>
       </div>
     </>

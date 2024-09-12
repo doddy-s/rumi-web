@@ -70,10 +70,10 @@ export type EpisodeList = BaseResDto & {
 }
 
 export enum VideoQualityEnum {
-  NHD,
-  FWVGA,
-  HD,
-  FHD
+  NHD = 'NHD',
+  FWVGA = 'FWVGA',
+  HD = 'HD',
+  FHD = 'FHD'
 }
 
 export enum ServerEnum {

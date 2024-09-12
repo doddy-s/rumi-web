@@ -15,7 +15,7 @@ import { createFileRoute } from '@tanstack/react-router'
 import { Route as rootRoute } from './routes/__root'
 import { Route as AuthImport } from './routes/_auth'
 import { Route as IndexImport } from './routes/index'
-import { Route as WatchConsumetIdImport } from './routes/watch/$consumetId'
+import { Route as WatchStreamIdImport } from './routes/watch/$streamId'
 import { Route as StreamMalIdImport } from './routes/stream/$malId'
 import { Route as AnimeMalIdImport } from './routes/anime/$malId'
 
@@ -36,8 +36,8 @@ const IndexRoute = IndexImport.update({
   getParentRoute: () => rootRoute,
 } as any)
 
-const WatchConsumetIdRoute = WatchConsumetIdImport.update({
-  path: '/watch/$consumetId',
+const WatchStreamIdRoute = WatchStreamIdImport.update({
+  path: '/watch/$streamId',
   getParentRoute: () => rootRoute,
 } as any)
 
@@ -97,11 +97,11 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof StreamMalIdImport
       parentRoute: typeof rootRoute
     }
-    '/watch/$consumetId': {
-      id: '/watch/$consumetId'
-      path: '/watch/$consumetId'
-      fullPath: '/watch/$consumetId'
-      preLoaderRoute: typeof WatchConsumetIdImport
+    '/watch/$streamId': {
+      id: '/watch/$streamId'
+      path: '/watch/$streamId'
+      fullPath: '/watch/$streamId'
+      preLoaderRoute: typeof WatchStreamIdImport
       parentRoute: typeof rootRoute
     }
     '/_auth/login/': {
@@ -131,7 +131,7 @@ export const routeTree = rootRoute.addChildren({
   }),
   AnimeMalIdRoute,
   StreamMalIdRoute,
-  WatchConsumetIdRoute,
+  WatchStreamIdRoute,
 })
 
 /* prettier-ignore-end */
@@ -146,7 +146,7 @@ export const routeTree = rootRoute.addChildren({
         "/_auth",
         "/anime/$malId",
         "/stream/$malId",
-        "/watch/$consumetId"
+        "/watch/$streamId"
       ]
     },
     "/": {
@@ -165,8 +165,8 @@ export const routeTree = rootRoute.addChildren({
     "/stream/$malId": {
       "filePath": "stream/$malId.tsx"
     },
-    "/watch/$consumetId": {
-      "filePath": "watch/$consumetId.tsx"
+    "/watch/$streamId": {
+      "filePath": "watch/$streamId.tsx"
     },
     "/_auth/login/": {
       "filePath": "_auth/login/index.lazy.tsx",
