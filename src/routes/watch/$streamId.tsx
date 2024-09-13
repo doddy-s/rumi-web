@@ -30,7 +30,7 @@ function Watch() {
         activeQuality: activeQuality,
         setActiveServer: setActiveServer,
         setActiveQuality: setActiveQuality}} >
-        <div className="h-[90vh] w-auto flex justify-center items-start pt-24 mx-20">
+        <div className="h-screen w-auto flex justify-center items-start pt-24 mx-20">
           <div className="h-full w-auto">
             <EpisodeCarousel />
           </div>

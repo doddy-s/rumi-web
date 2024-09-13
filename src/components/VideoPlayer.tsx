@@ -1,18 +1,18 @@
 import { getEpisodeHls } from '@api/anime/getEpisodeHls'
 import { getEpisodes } from '@api/anime/getEpisodes'
-import { ServerEnum } from '@api/anime/types'
 import { WatchContext } from '@contexts/WatchContext'
 import { useQuery } from '@tanstack/react-query'
 import { useNavigate, useSearch } from '@tanstack/react-router'
 import { useContext, useEffect, useRef, useState } from 'react'
 import ReactPlayer from 'react-player/lazy'
-import { ServerButton } from './ServerButton'
-import { QualityButton } from './QualityButton'
+import { VideoPlayerOption } from './VideoPlayerOption'
 
 export function VideoPlayer() {
   const [playing, setPlaying] = useState(true)
   const [episodeId, setEpisodeId] = useState<string | null>('')
-
+  const [activeUrl, setActiveUrl] = useState<string>('')
+  const videoPlayerRef = useRef<HTMLDivElement>(null)
+  
   useEffect(() => {
     const goFullScreen = () => {
       if (document.fullscreenElement) {
@@ -43,7 +43,6 @@ export function VideoPlayer() {
     setEpisodeId(watchSearch.episodeId)
   }, [watchSearch.episodeId])
 
-  const videoPlayerRef = useRef<HTMLDivElement>(null)
 
   const watchContext = useContext(WatchContext)
   const episodesQuery = useQuery({
@@ -63,14 +62,12 @@ export function VideoPlayer() {
     refetchOnReconnect: false
   })
 
+  useEffect(() => {
+    setActiveUrl(episodeQuery?.data?.data?.find((episode) => episode.videoQuality == watchContext.activeQuality)?.url || '')
+  }, [episodeQuery?.data?.data, watchContext.activeQuality, watchContext.activeServer])
+  
   const navigate = useNavigate()
-
-  if (episodeId == null) return (<></>)
-
-  if (episodeQuery.isError) return (
-    <>Error</>
-  )
-
+  
   const redirectToNextEpisode = () => {
     navigate({
       to: '/watch/$streamId',
@@ -84,6 +81,13 @@ export function VideoPlayer() {
       }
     })
   }
+  
+  if (episodeId == null) return (<></>)
+
+  if (episodeQuery.isError) return (
+    <>Error</>
+  )
+
 
   return (
     <>
@@ -91,32 +95,12 @@ export function VideoPlayer() {
         <h1 className="mb-5">SCREEN</h1>
         <div className="relative w-3/4 aspect-video">
           <div className="absolute h-full w-full" id="video-player" ref={videoPlayerRef}>
-            <ReactPlayer url={episodeQuery.isPending ? '' :
-              episodeQuery.data?.data[episodeQuery.data?.data.findIndex((episode) => episode.videoQuality == watchContext.activeQuality)]?.url}
+            <ReactPlayer key={activeUrl} url={activeUrl}
               playing={playing} height="100%" width="100%" controls={true} onEnded={redirectToNextEpisode}
             />
           </div>
         </div>
-        <div className="h-auto w-3/4 mt-5">
-          <div className="flex flex-col justify-center items-start gap-2">
-            <div className="flex gap-2">
-              <h2>Server</h2>
-              {Object.values(ServerEnum).map((server) => (
-                <>
-                  <ServerButton server={server} isActive={server == watchContext.activeServer} />
-                </>
-              ))}
-            </div>
-            <div className="flex gap-2">
-              <h2>Quality</h2>
-              {episodeQuery.data?.data?.map((server) => (
-                <>
-                  <QualityButton quality={server?.videoQuality} isActive={server?.videoQuality == watchContext.activeQuality} />
-                </>
-              ))}
-            </div>
-          </div>
-        </div>
+        <VideoPlayerOption episode={episodeQuery.data?.data || null}/>
       </div>
     </>
   )
