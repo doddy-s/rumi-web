@@ -1,24 +1,28 @@
 import { getEpisodes } from '@api/anime/getEpisodes'
 import { WatchContext } from '@contexts/WatchContext'
-import { useQuery } from '@tanstack/react-query'
-import { useNavigate, useSearch } from '@tanstack/react-router'
+import { useMutation, useQuery } from '@tanstack/react-query'
+import { useNavigate } from '@tanstack/react-router'
 import { useContext, useEffect, useRef, useState } from 'react'
 import ReactPlayer from 'react-player/lazy'
 import { VideoPlayerOption } from './VideoPlayerOption'
 import { getServers } from '@api/anime/getServers'
+import { OnProgressProps } from 'react-player/base'
+import { postHistory } from '@api/history/postHistory'
+import { AuthContext } from '@contexts/AuthContext'
 
-export function VideoPlayer() {
+export function VideoPlayer({ episodeId, startAt }: { episodeId: string, startAt: number }) {
   const [playing, setPlaying] = useState(true)
-  const [episodeId, setEpisodeId] = useState<string | null>('')
   const [activeUrl, setActiveUrl] = useState<string>('')
   const videoPlayerRef = useRef<HTMLDivElement>(null)
-  
+  const reactPlayerRef = useRef<ReactPlayer>(null)
+  const authContext = useContext(AuthContext)
+
   useEffect(() => {
     const goFullScreen = () => {
       if (document.fullscreenElement) {
         document.exitFullscreen()
       }
-  
+
       videoPlayerRef?.current?.requestFullscreen()
     }
     const handleKeyDown = (event: KeyboardEvent) => {
@@ -36,13 +40,6 @@ export function VideoPlayer() {
       window.removeEventListener('keydown', handleKeyDown)
     }
   })
-
-  const watchSearch = useSearch({ from: '/watch/$streamId' })
-
-  useEffect(() => {
-    setEpisodeId(watchSearch.episodeId)
-  }, [watchSearch.episodeId])
-
 
   const watchContext = useContext(WatchContext)
   const episodesQuery = useQuery({
@@ -65,9 +62,9 @@ export function VideoPlayer() {
   useEffect(() => {
     setActiveUrl(serversQuery?.data?.data?.servers?.find((server) => server.videoQuality == watchContext.activeQuality)?.url || '')
   }, [serversQuery?.data?.data, watchContext.activeQuality, watchContext.activeServer])
-  
+
   const navigate = useNavigate()
-  
+
   const redirectToNextEpisode = () => {
     navigate({
       to: '/watch/$streamId',
@@ -77,17 +74,34 @@ export function VideoPlayer() {
       search: {
         episodeId: episodesQuery?.data?.data?.episodes[
           episodesQuery?.data?.data?.episodes?.findIndex((episode) => episode.consumetId == episodeId) + 1
-        ]?.consumetId || null
+        ]?.consumetId || null,
+        second: null
       }
     })
   }
-  
+
+  const historyMutation = useMutation({
+    mutationKey: ['history', watchContext.streamId],
+    mutationFn: postHistory,
+    // onSuccess: (data) => {
+    //   console.log('Your progress on watching ' + data.data.consumetAnime.title + ' saved')
+    // },
+    // onError: () => {
+    //   console.log('Your progress on watching not saved')
+    // }
+})
+
   if (episodeId == null) return (<></>)
 
   if (serversQuery.isError) return (
     <>Error</>
   )
 
+  const saveProgress = (event: OnProgressProps) => {
+    if(!authContext.isAuthenticated) return
+    historyMutation.reset()
+    historyMutation.mutate({consumetEpisodeId: episodeId, second: Math.trunc(event.playedSeconds)})
+  }
 
   return (
     <>
@@ -95,12 +109,15 @@ export function VideoPlayer() {
         <h1 className="mb-5">SCREEN</h1>
         <div className="relative w-3/4 aspect-video">
           <div className="absolute h-full w-full" id="video-player" ref={videoPlayerRef}>
-            <ReactPlayer key={activeUrl} url={activeUrl}
-              playing={playing} height="100%" width="100%" controls={true} onEnded={redirectToNextEpisode}
+            <ReactPlayer key={activeUrl} url={activeUrl} playing={playing} ref={reactPlayerRef}
+              height="100%" width="100%" controls={true}
+              onEnded={redirectToNextEpisode}
+              progressInterval={10000} onProgress={saveProgress}
+              onStart={() => { reactPlayerRef.current?.seekTo(startAt, 'seconds') }}
             />
           </div>
         </div>
-        <VideoPlayerOption servers={serversQuery.data?.data?.servers || null}/>
+        <VideoPlayerOption servers={serversQuery.data?.data?.servers || null} />
       </div>
     </>
   )

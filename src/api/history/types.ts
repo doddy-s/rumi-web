@@ -17,3 +17,15 @@ export type HistoryPage = BaseResDto & {
   }
 }
 
+export type PostHistoryReqDto = {
+  consumetEpisodeId: string,
+  second: number
+}
+
+export type PostHistoryResDto = BaseResDto & {
+  data: {
+    consumetAnime: Stream
+    episodeNumber: number
+    second: number
+  }
+}

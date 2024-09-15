@@ -43,8 +43,8 @@ export function HistoryCarousel({ query, title, isInfinite }: { query: () => Pro
       <div className="h-[24rem] px-[5.5rem]" style={{width: Math.min(data?.data?.historyPage?.list?.length, 8) * 14 + 11 + 'rem'}}>
         <h1 className="text-xl pb-4">{title}</h1>
         <Slider {...settings}>
-          {data?.data?.historyPage?.list?.map((history) => (
-            <StreamCardLarge stream={history.consumetAnime} key={history.consumetAnime?.consumetId} episode={history.consumetEpisode}/>
+          {data?.data?.historyPage?.list?.reverse().map((history) => (
+            <StreamCardLarge stream={history.consumetAnime} key={history.consumetAnime?.consumetId} episode={history.consumetEpisode} second={history.second} />
           ))}
         </Slider>
       </div>

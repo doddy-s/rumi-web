@@ -1,4 +1,4 @@
-import { LoginReqDto, LoginResDto } from "./types"
+import { LoginReqDto, LoginResDto } from './types'
 
 export async function login(user : LoginReqDto): Promise<LoginResDto> {
     const response = await fetch(import.meta.env.VITE_API_ROOT+'/auth/login', {

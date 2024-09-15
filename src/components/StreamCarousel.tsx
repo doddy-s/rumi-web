@@ -47,7 +47,7 @@ export function StreamCarousel({ query, title, isInfinite, malId }: { query: (ma
         <h1 className="text-xl pb-4">{title}</h1>
         <Slider {...settings}>
           {data?.data?.streams?.map((stream) => (
-            <StreamCardLarge stream={stream} key={stream?.consumetId} episode={null}/>
+            <StreamCardLarge stream={stream} key={stream?.consumetId} />
           ))}
         </Slider>
       </div>
