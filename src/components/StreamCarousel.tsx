@@ -28,8 +28,8 @@ export function StreamCarousel({ query, title, isInfinite, malId }: { query: (ma
         <div className="h-[24rem] w-auto" style={{width: 8 * 14 + 'rem'}}>
           <h1 className="text-xl pb-4">{title}</h1>
           <Slider {...settings}>
-            {[...Array(10)].map(() => (
-              <AnimeCardLargeLoading />
+            {[...Array(10)].map((item, i) => (
+              <AnimeCardLargeLoading key={i}/>
             ))}
           </Slider>
         </div>
