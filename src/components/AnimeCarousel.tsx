@@ -25,7 +25,7 @@ export function AnimeCarousel({ query, title, isInfinite }: { query: () => Promi
         <div className="h-[24rem] w-full px-20">
           <h1 className="text-xl pb-4">{title}</h1>
           <Slider {...settings}>
-            {[...Array(10)].map((item, i) => (
+            {[...Array(10)].map((_, i) => (
               <AnimeCardLargeLoading key={i}/>
             ))}
           </Slider>

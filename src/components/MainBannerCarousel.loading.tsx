@@ -15,7 +15,7 @@ export function MainBannerCarouselLoading() {
     <>
       <div className="h-[12rem] w-[36rem]">
         <Slider {...settings}>
-          {[...Array(10)].map((item, i) => (
+          {[...Array(10)].map((_, i) => (
             <AnimeCardLoading key={i}/>
           ))}
         </Slider>
