@@ -1,10 +1,12 @@
 import { GoogleButton } from '@components/GoogleButton.tsx'
-import { createLazyFileRoute, Link } from '@tanstack/react-router'
+import { createLazyFileRoute, Link, useNavigate } from '@tanstack/react-router'
 import { OdemyLogo } from '@components/OdemyLogo.tsx'
-import React, { useState } from 'react'
+import React, { useContext, useState } from 'react'
 import { useMutation } from '@tanstack/react-query'
 import { StatefulButton } from '@components/StatefulButton.tsx'
 import { login } from '@api/auth/login'
+import Cookies from 'js-cookie'
+import { AuthContext } from '@contexts/AuthContext'
 
 export const Route: unknown = createLazyFileRoute('/_auth/login/')({
     component: Login
@@ -16,6 +18,9 @@ function Login() {
         css: 'bg-[#D1EBF8] border-[#93D7FA] text-[#74C2EB]'
     }
     const [buttonState, setButtonState] = useState(defaultButtonState)
+
+    const navigate = useNavigate()
+    const authContext = useContext(AuthContext)
 
     const mutation = useMutation({
         mutationKey: ['login'],
@@ -31,6 +36,18 @@ function Login() {
                 setButtonState({
                     text: 'Anda sudah masuk silahkan redirect',
                     css: 'bg-green-200 border-green-600 text-green-600'
+                })
+
+                Cookies.set('accessToken', data.data.accessToken, {
+                    secure: true,
+                })
+
+                Cookies.set('isAuthenticated', 'true')
+
+                authContext.setIsAuthenticated(true)
+
+                navigate({
+                    to: '/'
                 })
             } else {
                 setButtonState({
