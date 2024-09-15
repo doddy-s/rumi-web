@@ -1,4 +1,4 @@
-import { getCurrentSeasonAnimes, getTopAnimes } from '@api/anime/getCurrentSeasonAnimes'
+import { getCurrentSeasonAnimes } from '@api/anime/getCurrentSeasonAnimes'
 import { AnimeCarousel } from '@components/AnimeCarousel'
 import { MainBannerOverlay } from '@components/MainBannerOverlay'
 import { createFileRoute } from '@tanstack/react-router'
@@ -13,7 +13,7 @@ function Root() {
       <MainBannerOverlay />
       <div className="h-auto w-screen bg-black flex-col justify-center items-center">
         <AnimeCarousel query={getCurrentSeasonAnimes} title="Current Season Animes" isInfinite={true} />
-        <AnimeCarousel query={getTopAnimes} title="Your watch history" isInfinite={false} />
+        {/* <AnimeCarousel query={getTopAnimes} title="Your watch history" isInfinite={false} /> */}
       </div>
     </main>
   )

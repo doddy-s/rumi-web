@@ -4,11 +4,11 @@ import 'slick-carousel/slick/slick-theme.css'
 import { useState } from 'react'
 import { MainBannerDetail } from './MainBannerDetail'
 import { useQuery } from '@tanstack/react-query'
-import { getTopAnimes } from '@api/anime/getCurrentSeasonAnimes'
 import { MainBannerCarousel } from './MainBannerCarousel'
 import { MainBannerLoading } from './MainBanner.loading'
 import { MainBannerDetailLoading } from './MainBannerDetail.loading'
 import { MainBannerCarouselLoading } from './MainBannerCarousel.loading'
+import { getTopAnimes } from '@api/anime/getTopAnimes'
 
 export function MainBannerOverlay() {
   const { data, isPending, error, isError } = useQuery({

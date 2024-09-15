@@ -4,7 +4,7 @@ import { useContext } from 'react'
 import { WatchContext } from '@contexts/WatchContext'
 import { QualityButton } from './QualityButton'
 
-export function VideoPlayerOption({ episode }: { episode: Server[] | null}) {
+export function VideoPlayerOption({ servers }: { servers: Server[] | null}) {
   const watchContext = useContext(WatchContext)
 
   return (
@@ -21,7 +21,7 @@ export function VideoPlayerOption({ episode }: { episode: Server[] | null}) {
           </div>
           <div className="flex gap-2">
             <h2>Quality</h2>
-            {episode == null ? (<>Loading...</>) : episode?.map((server) => (
+            {servers == null ? (<>Loading...</>) : servers?.map((server) => (
               <>
                 <QualityButton quality={server?.videoQuality} key={server.url} isActive={server?.videoQuality == watchContext.activeQuality} />
               </>

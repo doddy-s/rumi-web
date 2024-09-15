@@ -1,7 +1,7 @@
 import { AnimeRes } from './types'
 
-export async function getOneAnime(malId: number): Promise<AnimeRes> {
-  const response = await fetch(import.meta.env.VITE_API_ROOT+'/anime/' + malId, {
+export async function getOneAnime(malAnimeId: number): Promise<AnimeRes> {
+  const response = await fetch(import.meta.env.VITE_API_ROOT+'/anime/' + malAnimeId, {
       method: 'GET',
       mode: 'cors',
       headers: {

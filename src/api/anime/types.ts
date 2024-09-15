@@ -48,7 +48,10 @@ export type Stream = {
 }
 
 export type StreamList = BaseResDto & {
-  data: Stream[]
+  data: {
+    anime: Anime
+    streams: Stream[]
+  }
 }
 
 export type Episode = {
@@ -64,8 +67,8 @@ export enum ProviderEnum {
 
 export type EpisodeList = BaseResDto & {
   data: {
-    provider: ProviderEnum
-    list: Episode[]
+    stream: Stream
+    episodes: Episode[]
   }
 }
 
@@ -91,5 +94,8 @@ export type Server = {
 }
 
 export type ServerList = BaseResDto & {
-  data: Server[]
+  data: {
+    episode: Episode
+    servers: Server[]
+  }
 }

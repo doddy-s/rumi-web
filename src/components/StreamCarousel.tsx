@@ -14,7 +14,7 @@ export function StreamCarousel({ query, title, isInfinite, malId }: { query: (ma
   const settings: Settings = {
     centerMode: false,
     infinite: isInfinite,
-    slidesToShow: data?.data.length || 8,
+    slidesToShow: data?.data?.streams?.length || 8,
     slidesToScroll: 1,
     speed: 200,
     swipeToSlide: true,
@@ -43,15 +43,12 @@ export function StreamCarousel({ query, title, isInfinite, malId }: { query: (ma
 
   return (
     <>
-      <div className="h-[24rem]" style={{width: data?.data?.length * 14 + 'rem'}}>
+      <div className="h-[24rem]" style={{width: data?.data?.streams?.length * 14 + 'rem'}}>
         <h1 className="text-xl pb-4">{title}</h1>
         <Slider {...settings}>
-          {data?.data?.map((stream) => (
+          {data?.data?.streams?.map((stream) => (
             <StreamCardLarge stream={stream} key={stream?.consumetId} />
           ))}
-          {/* <h1>1</h1>
-          <h1>2</h1>
-          <h1>3</h1> */}
         </Slider>
       </div>
     </>

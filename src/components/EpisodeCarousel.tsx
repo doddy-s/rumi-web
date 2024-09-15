@@ -28,7 +28,7 @@ export function EpisodeCarousel() {
       <div className="h-full overflow-y-auto scrollbar-thumb-gray-800 scrollbar-track-gray-400 scrollbar-thin">
         <h1 className="mb-5">EPISODE</h1>
         <div className="h-auto w-auto grid grid-cols-4 gap-4 mr-5">
-          {data?.data?.list?.map((episode) => <><EpisodeButton episode={episode} key={episode.consumetId} isActive={episode.consumetId == search?.episodeId} /></>)}
+          {data?.data?.episodes?.map((episode) => <><EpisodeButton episode={episode} key={episode.consumetId} isActive={episode.consumetId == search?.episodeId} /></>)}
         </div>
       </div>
     </>

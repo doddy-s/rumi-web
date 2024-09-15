@@ -1,4 +1,3 @@
-import { getEpisodeHls } from '@api/anime/getEpisodeHls'
 import { getEpisodes } from '@api/anime/getEpisodes'
 import { WatchContext } from '@contexts/WatchContext'
 import { useQuery } from '@tanstack/react-query'
@@ -6,6 +5,7 @@ import { useNavigate, useSearch } from '@tanstack/react-router'
 import { useContext, useEffect, useRef, useState } from 'react'
 import ReactPlayer from 'react-player/lazy'
 import { VideoPlayerOption } from './VideoPlayerOption'
+import { getServers } from '@api/anime/getServers'
 
 export function VideoPlayer() {
   const [playing, setPlaying] = useState(true)
@@ -50,9 +50,9 @@ export function VideoPlayer() {
     queryFn: async () => await getEpisodes(watchContext.streamId)
   })
 
-  const episodeQuery = useQuery({
+  const serversQuery = useQuery({
     queryKey: ['servers', episodeId, watchContext.activeServer],
-    queryFn: async () => await getEpisodeHls(episodeId, watchContext.activeServer),
+    queryFn: async () => await getServers(episodeId, watchContext.activeServer),
     enabled: episodeId != null,
     retry: false,
     retryOnMount: false,
@@ -63,8 +63,8 @@ export function VideoPlayer() {
   })
 
   useEffect(() => {
-    setActiveUrl(episodeQuery?.data?.data?.find((episode) => episode.videoQuality == watchContext.activeQuality)?.url || '')
-  }, [episodeQuery?.data?.data, watchContext.activeQuality, watchContext.activeServer])
+    setActiveUrl(serversQuery?.data?.data?.servers?.find((server) => server.videoQuality == watchContext.activeQuality)?.url || '')
+  }, [serversQuery?.data?.data, watchContext.activeQuality, watchContext.activeServer])
   
   const navigate = useNavigate()
   
@@ -75,16 +75,16 @@ export function VideoPlayer() {
         streamId: watchContext.streamId || ''
       },
       search: {
-        episodeId: episodesQuery?.data?.data?.list[
-          episodesQuery?.data?.data?.list.findIndex((episode) => episode.consumetId == episodeId) + 1
-        ].consumetId || null
+        episodeId: episodesQuery?.data?.data?.episodes[
+          episodesQuery?.data?.data?.episodes?.findIndex((episode) => episode.consumetId == episodeId) + 1
+        ]?.consumetId || null
       }
     })
   }
   
   if (episodeId == null) return (<></>)
 
-  if (episodeQuery.isError) return (
+  if (serversQuery.isError) return (
     <>Error</>
   )
 
@@ -100,7 +100,7 @@ export function VideoPlayer() {
             />
           </div>
         </div>
-        <VideoPlayerOption episode={episodeQuery.data?.data || null}/>
+        <VideoPlayerOption servers={serversQuery.data?.data?.servers || null}/>
       </div>
     </>
   )

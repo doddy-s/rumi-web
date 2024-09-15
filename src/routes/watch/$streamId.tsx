@@ -20,7 +20,7 @@ export const Route = createFileRoute('/watch/$streamId')({
 
 function Watch() {
   const { streamId }: { streamId: string } = Route.useParams()
-  const [activeServer, setActiveServer] = useState(ServerEnum.VIDCLOUD)
+  const [activeServer, setActiveServer] = useState(ServerEnum.VIDSTREAMING)
   const [activeQuality, setActiveQuality] = useState(VideoQualityEnum.FHD)
 
   return (
