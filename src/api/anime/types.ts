@@ -1,4 +1,4 @@
-import { BaseResDto } from '@api/types'
+import { BaseResDto, SimplePage } from '@api/types'
 
 export type Anime = {
   malId: number
@@ -28,12 +28,6 @@ export type AnimePage = BaseResDto & {
   data: SimplePage & {
     list: Anime[]
   }
-}
-
-export type SimplePage = {
-  maxPage: number
-  currentPage: number
-  hasNextPage: boolean
 }
 
 export type AnimeRes = BaseResDto & {

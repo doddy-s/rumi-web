@@ -1,35 +1,32 @@
 import Slider, { Settings } from 'react-slick'
-import { StreamList } from '@api/anime/types'
 import { useQuery } from '@tanstack/react-query'
 import { AnimeCardLargeLoading } from './AnimeCardLarge.loading'
+import { HistoryPage } from '@api/history/types'
 import { StreamCardLarge } from './StreamCardLarge'
 
-export function StreamCarousel({ query, title, isInfinite, malId }: { query: (malId: number) => Promise<StreamList>, title: string, isInfinite: boolean, malId: number }) {
-  
+export function HistoryCarousel({ query, title, isInfinite }: { query: () => Promise<HistoryPage>, title: string, isInfinite: boolean }) {
   const { data, isPending, error, isError } = useQuery({
-    queryKey: ['streams', malId],
-    queryFn: async () => await query(malId),
+    queryKey: ['animes', title],
+    queryFn: query,
   })
   
   const settings: Settings = {
     centerMode: false,
     infinite: isInfinite,
-    slidesToShow: data?.data?.streams?.length || 8,
-    slidesToScroll: 1,
+    slidesToShow: Math.min(data?.data?.historyPage?.list?.length || 8, 8),
     speed: 200,
     swipeToSlide: true,
-    // variableWidth: true
-    arrows: false
+    focusOnSelect: true,
   }
-  
+
   if (isPending) {
     return (
       <>
-        <div className="h-[24rem] w-auto" style={{width: 8 * 14 + 'rem'}}>
+        <div className="h-[24rem] w-full px-20">
           <h1 className="text-xl pb-4">{title}</h1>
           <Slider {...settings}>
             {[...Array(10)].map((_, i) => (
-              <AnimeCardLargeLoading key={i}/>
+              <AnimeCardLargeLoading key={i} />
             ))}
           </Slider>
         </div>
@@ -43,11 +40,11 @@ export function StreamCarousel({ query, title, isInfinite, malId }: { query: (ma
 
   return (
     <>
-      <div className="h-[24rem]" style={{width: data?.data?.streams?.length * 14 + 'rem'}}>
+      <div className="h-[24rem] px-[5.5rem]" style={{width: Math.min(data?.data?.historyPage?.list?.length, 8) * 14 + 11 + 'rem'}}>
         <h1 className="text-xl pb-4">{title}</h1>
         <Slider {...settings}>
-          {data?.data?.streams?.map((stream) => (
-            <StreamCardLarge stream={stream} key={stream?.consumetId} episode={null}/>
+          {data?.data?.historyPage?.list?.map((history) => (
+            <StreamCardLarge stream={history.consumetAnime} key={history.consumetAnime?.consumetId} episode={history.consumetEpisode}/>
           ))}
         </Slider>
       </div>

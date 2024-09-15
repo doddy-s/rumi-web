@@ -16,8 +16,9 @@ export function MainNavbar() {
         <>
             <nav className="h-auto w-full px-20 py-10 flex items-center justify-between fixed z-[9999]">
                 <Link to="/">RUMI</Link>
-                {authContext.isAuthenticated ? <button onClick={logOut}>LOGOUT</button> : <Link to="/login">LOGIN</Link>}
-                <h1>Search</h1>
+                {authContext.isAuthenticated ? <button onClick={logOut} className="text-red-400">LOGOUT</button> : 
+                <div><Link to="/login" className="text-green-400">LOGIN</Link>/<Link to="/register" className="text-green-400">REGISTER</Link></ div>}
+                <h1>SEARCH</h1>
             </nav>
         </>
     )

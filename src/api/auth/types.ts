@@ -1,4 +1,4 @@
-import { BaseResDto } from "@api/types"
+import { BaseResDto } from '@api/types'
 
 export type RegisterReqDto = {
     username: string,
@@ -26,4 +26,10 @@ export type LoginResDto = BaseResDto & {
         accessToken: string,
         refreshToken: string
     }
+}
+
+export type UserDto = {
+    username: string
+    email: string
+    picture: string
 }
