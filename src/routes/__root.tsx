@@ -10,6 +10,8 @@ import { MainFooter } from '@components/MainFooter'
 import { AuthContext } from '@contexts/AuthContext'
 import Cookies from 'js-cookie'
 import { useEffect, useState } from 'react'
+import { OptionsContext } from '@contexts/OptionsContext'
+import { getStatus } from '@api/rumiRichPresence/getStatus'
 
 export const Route = createRootRouteWithContext<{
     queryClient: QueryClient
@@ -20,10 +22,28 @@ export const Route = createRootRouteWithContext<{
 
 function RootComponent() {
     const [isAuthenticated, setIsAuthenticated] = useState(false)
+    const [richPresenceIsEnable, setRichPresenceIsEnable] = useState(false)
+    const [richPresenceIsAvailable, setRichPresenceIsAvailable] = useState(false)
 
     useEffect(() => {
         setIsAuthenticated(Cookies.get('isAuthenticated') == 'true' ? true : false || false)
     }, [isAuthenticated])
+
+    useEffect(() => {
+        getStatus().then((value) => {
+            console.log(value)
+            setRichPresenceIsAvailable(value.statusCode == 200)
+        })
+        setRichPresenceIsEnable(Cookies.get('richPresenceIsEnable') === 'true');
+    }, [])
+
+    useEffect(() => {
+        if (richPresenceIsEnable) {
+            Cookies.set('richPresenceIsEnable', 'true')
+            return
+        }
+        Cookies.set('richPresenceIsEnable', 'false')
+    }, [richPresenceIsEnable])
 
     return (
         <>
@@ -32,8 +52,16 @@ function RootComponent() {
                 isAuthenticated: isAuthenticated,
                 setIsAuthenticated: setIsAuthenticated
             }}>
-                <MainNavbar />
-                <section className="overflow-hidden"><Outlet /></section>
+                <OptionsContext.Provider value={{
+                    richPresenceIsAvailable: richPresenceIsAvailable,
+                    richPresenceIsEnable: richPresenceIsEnable,
+                    setRichPresenceIsEnable: setRichPresenceIsEnable
+                }}>
+                    <MainNavbar />
+                    <section className="overflow-hidden">
+                        <Outlet />
+                    </section>
+                </OptionsContext.Provider>
             </AuthContext.Provider>
             <ReactQueryDevtools buttonPosition="bottom-right" />
             <TanStackRouterDevtools position="bottom-right" />

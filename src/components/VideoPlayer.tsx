@@ -9,6 +9,8 @@ import { getServers } from '@api/anime/getServers'
 import { OnProgressProps } from 'react-player/base'
 import { postHistory } from '@api/history/postHistory'
 import { AuthContext } from '@contexts/AuthContext'
+import { getWatchStart } from '@api/rumiRichPresence/getWatchStart'
+import { OptionsContext } from '@contexts/OptionsContext'
 
 export function VideoPlayer({ episodeId, startAt }: { episodeId: string, startAt: number }) {
   const [playing, setPlaying] = useState(true)
@@ -89,7 +91,9 @@ export function VideoPlayer({ episodeId, startAt }: { episodeId: string, startAt
     // onError: () => {
     //   console.log('Your progress on watching not saved')
     // }
-})
+  })
+
+  const optionsContext = useContext(OptionsContext)
 
   if (episodeId == null) return (<></>)
 
@@ -97,10 +101,31 @@ export function VideoPlayer({ episodeId, startAt }: { episodeId: string, startAt
     <>Error</>
   )
 
-  const saveProgress = (event: OnProgressProps) => {
-    if(!authContext.isAuthenticated) return
+  const saveProgress = async (event: OnProgressProps) => {
+    if (optionsContext.richPresenceIsEnable) await getWatchStart({
+      title: episodesQuery?.data?.data?.stream?.title || '',
+      number: serversQuery?.data?.data?.episode?.number || 0,
+      image: episodesQuery?.data?.data?.stream?.image || ''
+    })
+
+    if (!authContext.isAuthenticated) return
     historyMutation.reset()
-    historyMutation.mutate({consumetEpisodeId: episodeId, second: Math.trunc(event.playedSeconds)})
+    
+    historyMutation.mutate({ consumetEpisodeId: episodeId, second: Math.trunc(event.playedSeconds) })
+  }
+
+  const seekOnStart = async () => {
+    if (optionsContext.richPresenceIsEnable) await getWatchStart({
+      title: episodesQuery?.data?.data?.stream?.title || '',
+      number: serversQuery?.data?.data?.episode?.number || 0,
+      image: episodesQuery?.data?.data?.stream?.image || ''
+    })
+
+    if (!authContext.isAuthenticated) return
+    historyMutation.reset()
+
+    if (startAt == 0) historyMutation.mutate({ consumetEpisodeId: episodeId, second: 0 })
+    reactPlayerRef.current?.seekTo(startAt, 'seconds')
   }
 
   return (
@@ -112,8 +137,8 @@ export function VideoPlayer({ episodeId, startAt }: { episodeId: string, startAt
             <ReactPlayer key={activeUrl} url={activeUrl} playing={playing} ref={reactPlayerRef}
               height="100%" width="100%" controls={true}
               onEnded={redirectToNextEpisode}
-              progressInterval={10000} onProgress={saveProgress}
-              onStart={() => { reactPlayerRef.current?.seekTo(startAt, 'seconds') }}
+              progressInterval={60000} onProgress={saveProgress}
+              onStart={seekOnStart}
             />
           </div>
         </div>
